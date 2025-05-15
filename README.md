@@ -1,12 +1,37 @@
-# React + Vite
+# 📋 Task Tracker App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A full-stack Task Tracker application built using **React.js** for the frontend and **Node.js** (Express) for the backend. This app allows users to manage tasks efficiently with features like task creation, updates, deletions, and status tracking.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Features
 
-## Expanding the ESLint configuration
+- ✅ User Authentication (Register & Login)
+- 📅 Create, Update, Delete, and View Tasks
+- 🏷️ Assign priorities and due dates
+- 🔍 Search and filter tasks
+- 📊 Dashboard with task statistics
+- 🔔 Notifications (optional)
+- 🧑‍🤝‍🧑 Team collaboration (if enabled)
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+
+## 🛠️ Tech Stack
+
+### Frontend
+- React.js (with Hooks)
+- React Router
+- Context API / Redux (optional)
+- Tailwind CSS or Material UI
+
+### Backend
+- Node.js
+- Express.js
+- MongoDB / PostgreSQL
+- JWT for authentication
+- Mongoose / Sequelize (ORM/ODM)
+
+---
+
+## 📁 Project Structure
+
