@@ -9,12 +9,13 @@ const Avatar = ({ name, image,user }) => {
     const navigate=useNavigate()
    const onLogout=()=>{
        if(user){
-          
+            toast.success("Logout successfully !!");
           localStorage.removeItem("user");
+
            setTimeout(()=>{
               navigate("/login")
           },2000)
-          toast.success("Logout successfully !!");
+        
        }
    }
   const initials = name
