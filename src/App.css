@@ -1,0 +1,15 @@
+@import "tailwindcss";
+
+table tr,th, td{
+  padding:10px;
+  border-bottom: 1px solid #ddd;
+}
+
+
+
+@media(max-width:768px){
+    table tr{
+        overflow-x: scroll;
+        width:100%!important;
+    }
+}
