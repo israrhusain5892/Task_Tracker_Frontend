@@ -37,6 +37,7 @@ const Avatar = ({ name, image,user }) => {
 
   return (
     <div className="relative cursor-pointer" ref={menuRef}>
+      <ToastContainer position="top-center"></ToastContainer>
       <button
         onClick={() => setOpen(!open)}
         className="w-10 h-10 cursor-pointer rounded-full bg-blue-500 text-white flex items-center justify-center font-semibold text-sm overflow-hidden"

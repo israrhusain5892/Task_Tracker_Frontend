@@ -2,9 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { useGlobalContext } from '../Context/GlobalContext';
 import { toast, ToastContainer } from 'react-toastify';
 import { addProject, updateProject } from '../Api';
+import SubmitLoader from './SubmitLoader';
 const AddProjectModel = ({ isOpen, isEdit, onClose, onSubmit, project }) => {
 
     const { projectData, setProjectData, user } = useGlobalContext();
+    const[isLoading,setLoading]=useState(false);
     // project data form state
     const [formData, setFormData] = useState({
         title: '',
@@ -22,27 +24,30 @@ const AddProjectModel = ({ isOpen, isEdit, onClose, onSubmit, project }) => {
 
     const editSubmit = async (e) => {
         e.preventDefault()
+        setLoading(true)
         try {
             const res = await updateProject(formData, project._id);
             if (res.status === 201 || res.status === 200) {
+                setLoading(false)
                 setProjectData((prev) => {
                     return prev.map((project) => {
                         return project._id === res.data._id ? res.data : project
                     })
                 })
-                
-                setTimeOut(() => {
+
+                setTimeout(() => {
                     onClose()
-                }, 1000)
+                }, 2000)
                 toast.success("Project Edit successfully")
             }
         }
-        catch(error) {
+        catch (error) {
+            setLoading(false)
             console.log(error)
         }
         setFormData({ title: '', status: '' });
     }
-    
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData(prev => ({ ...prev, [name]: value }));
@@ -50,20 +55,22 @@ const AddProjectModel = ({ isOpen, isEdit, onClose, onSubmit, project }) => {
     //  addd project 
     const submitProject = async (e) => {
         e.preventDefault();
-
+         setLoading(true)
         try {
             // post project to server
             const res = await addProject(formData);
             if (res.status === 201 || res.status === 200) {
+                setLoading(false)
                 setProjectData([...projectData, res.data]);
                 toast.success("Project added successfully")
-                setTimeout(()=>{
-                     onClose()
-                },2000)
-               
+                setTimeout(() => {
+                    onClose()
+                }, 2000)
+
             }
         }
         catch (error) {
+            setLoading(false)
             const errorMsg = error.response?.data?.error;
             toast.error(`${errorMsg}`)
         }
@@ -80,7 +87,7 @@ const AddProjectModel = ({ isOpen, isEdit, onClose, onSubmit, project }) => {
         <div className="fixed inset-0 z-50 bg-white/80 backdrop-blur-mt bg-opacity-50 flex justify-center items-center">
             <ToastContainer position="top-center"></ToastContainer>
             <div className="bg-white p-6 rounded-xl w-[80%] md:max-w-md shadow-lg">
-                <h2 className="text-xl font-semibold mb-4">Add New Project</h2>
+                <h2 className="text-xl font-semibold mb-4">{isEdit ? 'Edit Project' : 'Add New Project'}</h2>
                 <form onSubmit={isEdit ? editSubmit : submitProject} className="space-y-4">
                     <div>
                         <label className="block text-sm font-medium mb-1">Title</label>
@@ -118,7 +125,11 @@ const AddProjectModel = ({ isOpen, isEdit, onClose, onSubmit, project }) => {
                             type="submit"
                             className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
                         >
-                            Add Project
+
+                            {
+                              isLoading ? <SubmitLoader />: isEdit? 'Edit Project': 'Add Project' 
+                            }
+
                         </button>
                     </div>
                 </form>

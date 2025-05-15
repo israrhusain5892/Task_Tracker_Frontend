@@ -3,11 +3,12 @@ import { GlobalProvider, useGlobalContext } from '../Context/GlobalContext';
 import axios from 'axios'
 import { toast, ToastContainer } from 'react-toastify';
 import { addTask, updateTask } from '../Api';
+import SubmitLoader from './SubmitLoader';
 const AddTaskModel = ({ isOpen, edit, onClose, onSubmit, handleEdit, users }) => {
 
   // extract taskobject ,user projectData
   const { user, projectData, API_ROOT, taskObject, setTasksData, tasksData } = useGlobalContext();
- 
+  const[isLoading,setLoading]=useState(false)
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -28,9 +29,11 @@ const AddTaskModel = ({ isOpen, edit, onClose, onSubmit, handleEdit, users }) =>
 
   const editSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true)
     try {
       const response = await updateTask(formData,taskObject._id);
       if (response.status == 201 || response.status == 200) {
+        setLoading(false);
         // update state in setTaks 
         setTasksData((prev) => {
           return prev.map(curTask => {
@@ -46,6 +49,7 @@ const AddTaskModel = ({ isOpen, edit, onClose, onSubmit, handleEdit, users }) =>
 
     }
     catch (error) {
+      setLoading(false)
       toast.error("some thing went wrong try again ")
     }
     console.log("edit data:", formData)
@@ -68,12 +72,13 @@ const AddTaskModel = ({ isOpen, edit, onClose, onSubmit, handleEdit, users }) =>
   //  add task to db
   const handleSubmit = async (e) => {
     e.preventDefault();
-      console.log(formData)
+     setLoading(true)
     try {
       // call api funtion
       const response = await addTask(formData);
     
       if (response.status == 200 || response.status === 201) {
+        setLoading(false)
         setTasksData([...tasksData, response.data]);  
          
          toast.success("Task added successfully!!")
@@ -86,6 +91,7 @@ const AddTaskModel = ({ isOpen, edit, onClose, onSubmit, handleEdit, users }) =>
       setFormData({title: '', description: '',status: '',projectId: '', userId: '',});
     }
     catch (error) {
+      setLoading(false)
       console.log("some this went wrong ", error);
     }
   };
@@ -103,7 +109,7 @@ const AddTaskModel = ({ isOpen, edit, onClose, onSubmit, handleEdit, users }) =>
           &times;
         </button>
 
-        <h2 className="text-2xl font-bold mb-4">Add New Task</h2>
+        <h2 className="text-2xl font-bold mb-4">{edit?'Edit Task':'Add New Task'}</h2>
 
         <form onSubmit={edit == true ? editSubmit : handleSubmit} className="space-y-4">
           <div>
@@ -169,8 +175,11 @@ const AddTaskModel = ({ isOpen, edit, onClose, onSubmit, handleEdit, users }) =>
             <button
               type="submit"
               className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition"
-            >
-              Add Task
+            > 
+            {
+              isLoading?<SubmitLoader/>:edit?"Edit Task":"Add Task"
+            }
+             
             </button>
           </div>
         </form>
