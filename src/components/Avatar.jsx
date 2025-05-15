@@ -2,14 +2,19 @@ import { useState, useRef, useEffect } from "react";
 import { IoLogOutOutline } from "react-icons/io5";
 import { useGlobalContext } from "../Context/GlobalContext";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer,toast } from "react-toastify";
 const Avatar = ({ name, image,user }) => {
   const [open, setOpen] = useState(false);
   const menuRef = useRef();
     const navigate=useNavigate()
    const onLogout=()=>{
        if(user){
+          
           localStorage.removeItem("user");
-          navigate("/login")
+           setTimeout(()=>{
+              navigate("/login")
+          },2000)
+          toast.success("Logout successfully !!");
        }
    }
   const initials = name

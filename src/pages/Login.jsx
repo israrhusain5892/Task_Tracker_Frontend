@@ -56,8 +56,8 @@ const Login = () => {
           localStorage.setItem("user", JSON.stringify(response.data.user));
           toast.success("Login successfully !!")
           setTimeout(()=>{
-               navigate("/taskDashboard");
-          },1000)
+               window.location.href='/taskDashboard'
+          },2000)
           
         }
         
